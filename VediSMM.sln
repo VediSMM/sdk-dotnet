@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VediSMM", "src\VediSMM\VediSMM.csproj", "{B0C37F0C-CB17-4B4B-9C2E-A8BE679FA943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VediSMM.Tests", "tests\VediSMM.Tests\VediSMM.Tests.csproj", "{C9D8B31E-B979-4E26-91A8-F1DF695753EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0C37F0C-CB17-4B4B-9C2E-A8BE679FA943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C37F0C-CB17-4B4B-9C2E-A8BE679FA943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C37F0C-CB17-4B4B-9C2E-A8BE679FA943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C37F0C-CB17-4B4B-9C2E-A8BE679FA943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D8B31E-B979-4E26-91A8-F1DF695753EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D8B31E-B979-4E26-91A8-F1DF695753EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D8B31E-B979-4E26-91A8-F1DF695753EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D8B31E-B979-4E26-91A8-F1DF695753EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
