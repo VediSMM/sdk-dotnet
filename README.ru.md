@@ -13,7 +13,7 @@
 До настройки доверенной публикации в NuGet соберите точный тег в локальный каталог пакетов:
 
 ```bash
-git clone --branch v0.1.0 --depth 1 https://github.com/VediSMM/sdk-dotnet.git
+git clone --branch v0.1.1 --depth 1 https://github.com/VediSMM/sdk-dotnet.git
 cd sdk-dotnet
 dotnet pack src/VediSMM/VediSMM.csproj --configuration Release --output ./artifacts
 ```
@@ -21,7 +21,7 @@ dotnet pack src/VediSMM/VediSMM.csproj --configuration Release --output ./artifa
 Подключите нативный пакет в своём проекте:
 
 ```bash
-dotnet add package VediSMM --version 0.1.0 --source ../sdk-dotnet/artifacts
+dotnet add package VediSMM --version 0.1.1 --source ../sdk-dotnet/artifacts
 ```
 
 ## Быстрый старт

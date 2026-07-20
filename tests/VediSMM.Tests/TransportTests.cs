@@ -39,6 +39,7 @@ public sealed class TransportTests
         Assert.NotNull(request);
         Assert.Equal("Bearer", request.AuthorizationScheme);
         Assert.Equal("memory-token", request.AuthorizationParameter);
+        Assert.Equal("memory-token", request.FallbackToken);
         Assert.Contains("/accounts/a%2Fb", request.Uri.AbsoluteUri, StringComparison.Ordinal);
         Assert.Contains("search=x%20y", request.Uri.Query, StringComparison.Ordinal);
         Assert.Contains("search=%D0%B4%D0%B2%D0%B0", request.Uri.Query, StringComparison.Ordinal);
@@ -169,6 +170,14 @@ public sealed class TransportTests
         {
             Headers = new Dictionary<string, IReadOnlyList<string>>(StringComparer.OrdinalIgnoreCase)
             {
+                ["X-API-Token"] = AuthorizationValues,
+            },
+        }, TestContext.Current.CancellationToken));
+
+        await Assert.ThrowsAsync<ConfigurationException>(() => safe.CallAsync("ping", new CallOptions
+        {
+            Headers = new Dictionary<string, IReadOnlyList<string>>(StringComparer.OrdinalIgnoreCase)
+            {
                 ["X-Test"] = UnsafeHeaderValues,
             },
         }, TestContext.Current.CancellationToken));
@@ -260,6 +269,7 @@ public sealed class TransportTests
         Uri Uri,
         string? AuthorizationScheme,
         string? AuthorizationParameter,
+        string? FallbackToken,
         string? IdempotencyKey,
         string Body)
     {
@@ -267,10 +277,12 @@ public sealed class TransportTests
         {
             string body = request.Content is null ? string.Empty : await request.Content.ReadAsStringAsync(cancellationToken);
             request.Headers.TryGetValues("Idempotency-Key", out IEnumerable<string>? idempotencyValues);
+            request.Headers.TryGetValues("X-API-Token", out IEnumerable<string>? fallbackValues);
             return new RequestSnapshot(
                 request.RequestUri!,
                 request.Headers.Authorization?.Scheme,
                 request.Headers.Authorization?.Parameter,
+                fallbackValues?.SingleOrDefault(),
                 idempotencyValues?.SingleOrDefault(),
                 body);
         }

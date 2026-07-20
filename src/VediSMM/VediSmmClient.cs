@@ -23,6 +23,7 @@ public sealed class VediSmmClient : IDisposable
     private static readonly HashSet<string> ReservedHeaders = new(StringComparer.OrdinalIgnoreCase)
     {
         "Authorization",
+        "X-API-Token",
         "Host",
         "Content-Length",
         "Content-Type",
@@ -387,11 +388,12 @@ public sealed class VediSmmClient : IDisposable
     {
         var request = new HttpRequestMessage(new HttpMethod(operation.Method), BuildUri(operation, call));
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        request.Headers.UserAgent.ParseAdd("VediSMM-DotNet/0.1.0");
-        request.Headers.TryAddWithoutValidation("X-SDK-Version", "0.1.0");
+        request.Headers.UserAgent.ParseAdd("VediSMM-DotNet/0.1.1");
+        request.Headers.TryAddWithoutValidation("X-SDK-Version", "0.1.1");
         if (token is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Headers.TryAddWithoutValidation("X-API-Token", token);
         }
 
         if (call.IdempotencyKey is not null)

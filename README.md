@@ -13,7 +13,7 @@ Native .NET 8+ client for all 83 operations of the VediSMM public user API v1. I
 Until NuGet trusted publishing is configured, build the exact immutable source tag into a local package directory:
 
 ```bash
-git clone --branch v0.1.0 --depth 1 https://github.com/VediSMM/sdk-dotnet.git
+git clone --branch v0.1.1 --depth 1 https://github.com/VediSMM/sdk-dotnet.git
 cd sdk-dotnet
 dotnet pack src/VediSMM/VediSMM.csproj --configuration Release --output ./artifacts
 ```
@@ -21,7 +21,7 @@ dotnet pack src/VediSMM/VediSMM.csproj --configuration Release --output ./artifa
 Then add the native package to a consumer project:
 
 ```bash
-dotnet add package VediSMM --version 0.1.0 --source ../sdk-dotnet/artifacts
+dotnet add package VediSMM --version 0.1.1 --source ../sdk-dotnet/artifacts
 ```
 
 ## Quick start

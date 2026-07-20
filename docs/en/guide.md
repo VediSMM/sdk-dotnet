@@ -6,6 +6,11 @@ Create one `VediSmm` facade per application lifetime. The options constructor cr
 
 Use `AccessToken` for a fixed memory-only token or `TokenProvider` to resolve a rotated token immediately before an authenticated request. They are mutually exclusive. The token provider receives the same finite cancellation deadline as the HTTP exchange.
 
+Authenticated calls send the same in-memory credential through both
+`Authorization: Bearer` and VediSMM's `X-API-Token` proxy fallback. The API
+gives `Authorization` priority. Both headers are SDK-managed and must never be
+logged.
+
 ## Calls and cancellation
 
 Every domain operation returns `Task<ApiResponse>` and accepts a `CancellationToken`:

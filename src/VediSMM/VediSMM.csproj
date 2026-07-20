@@ -3,7 +3,7 @@
     <AssemblyName>VediSMM</AssemblyName>
     <RootNamespace>VediSMM</RootNamespace>
     <PackageId>VediSMM</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>VediSMM</Authors>
     <Company>VediSMM</Company>
     <Description>Native .NET client for the VediSMM public user API v1.</Description>
