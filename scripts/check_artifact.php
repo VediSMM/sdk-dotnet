@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+function containsLocalAbsolutePath(string $contents): bool
+{
+    return preg_match('#/(?:Users|home|work|workspace|app)(?:/|\\\\)#', $contents) === 1
+        || preg_match('#(?<![A-Za-z0-9])[A-Za-z]:[\\\\/]#', $contents) === 1;
+}
+
 if ($argc !== 3) {
     fwrite(STDERR, "Usage: check_artifact.php <nupkg> <snupkg>\n");
     exit(2);
@@ -48,7 +54,7 @@ for ($index = 0; $index < $archive->numFiles; $index++) {
     if (!is_string($contents)) {
         continue;
     }
-    if (preg_match('#/(?:Users|home)/[^/\s]+/#', $contents) === 1
+    if (containsLocalAbsolutePath($contents)
         || str_contains($contents, '-----BEGIN ' . 'PRIVATE KEY-----')) {
         fwrite(STDERR, sprintf("Sensitive artifact content: %s\n", $name));
         exit(1);
@@ -64,7 +70,7 @@ if ($symbols->open($argv[2]) !== true || $symbols->locateName('lib/net8.0/VediSM
 }
 for ($index = 0; $index < $symbols->numFiles; $index++) {
     $contents = $symbols->getFromIndex($index);
-    if (is_string($contents) && preg_match('#/(?:Users|home)/[^/\s]+/#', $contents) === 1) {
+    if (is_string($contents) && containsLocalAbsolutePath($contents)) {
         fwrite(STDERR, "Local absolute path found in symbol package\n");
         exit(1);
     }
