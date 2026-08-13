@@ -37,6 +37,19 @@ $manifest = json_decode(
 $english = (string) file_get_contents($root . '/docs/en/api-reference.md');
 $russian = (string) file_get_contents($root . '/docs/ru/api-reference.md');
 $seen = [];
+$focused = [
+    'archiveTrackingLink' => '.ArchiveAsync(id, options, cancellationToken)',
+    'createTrackingLink' => '.CreateAsync(request, options, cancellationToken)',
+    'disableTrackingLink' => '.DisableAsync(id, options, cancellationToken)',
+    'getTrackingLink' => '.GetAsync(id, options, cancellationToken)',
+    'listTrackingLinks' => '.ListAsync(query, options, cancellationToken)',
+    'getTrackingAnalyticsGeo' => '.GeoAsync(filter, options, cancellationToken)',
+    'getTrackingAnalyticsSummary' => '.SummaryAsync(filter, options, cancellationToken)',
+    'getTrackingAnalyticsTimeseries' => '.TimeseriesAsync(filter, options, cancellationToken)',
+    'listTrackingAnalyticsLinks' => '.LinksAsync(filter, options, cancellationToken)',
+    'listTrackingAnalyticsPosts' => '.PostsAsync(filter, options, cancellationToken)',
+    'listTrackingAnalyticsSources' => '.SourcesAsync(filter, options, cancellationToken)',
+];
 foreach ($manifest['operations'] ?? [] as $operation) {
     $id = (string) ($operation['operation_id'] ?? '');
     if ($id === '' || isset($seen[$id])) {
@@ -45,15 +58,31 @@ foreach ($manifest['operations'] ?? [] as $operation) {
     }
     $seen[$id] = true;
     $method = strtoupper($id[0]) . substr($id, 1);
-    $needle = '.' . $method . 'Async(options, cancellationToken)`';
+    $needle = $focused[$id] ?? ('.' . $method . 'Async(options, cancellationToken)');
     if (!str_contains($english, $needle) || !str_contains($russian, $needle)) {
         fwrite(STDERR, sprintf("Missing API reference entry: %s\n", $id));
         exit(1);
     }
 }
-if (count($seen) !== 83) {
-    fwrite(STDERR, sprintf("Documentation coverage must be 83/83, got %d\n", count($seen)));
+if (count($seen) !== 94) {
+    fwrite(STDERR, sprintf("Documentation coverage must be 94/94, got %d\n", count($seen)));
     exit(1);
 }
 
-fwrite(STDOUT, "Documentation covers all 83 operations in English and Russian.\n");
+$requiredTrackingText = [
+    'README.md' => ['TrackingSettings', 'destination', 'Idempotency-Key', 'If-Match'],
+    'README.ru.md' => ['TrackingSettings', 'destination', 'Idempotency-Key', 'If-Match'],
+    'docs/en/guide.md' => ['TrackingLinks', 'TrackingAnalytics', 'FeatureCollection', 'shorten_links'],
+    'docs/ru/guide.md' => ['TrackingLinks', 'TrackingAnalytics', 'FeatureCollection', 'shorten_links'],
+];
+foreach ($requiredTrackingText as $file => $needles) {
+    $contents = (string) file_get_contents($root . '/' . $file);
+    foreach ($needles as $needle) {
+        if (!str_contains($contents, $needle)) {
+            fwrite(STDERR, sprintf("Missing tracking documentation in %s: %s\n", $file, $needle));
+            exit(1);
+        }
+    }
+}
+
+fwrite(STDOUT, "Documentation covers all 94 operations and tracking semantics in English and Russian.\n");

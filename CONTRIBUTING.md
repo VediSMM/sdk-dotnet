@@ -7,7 +7,7 @@ dotnet restore VediSMM.sln --locked-mode
 php scripts/generate.php
 dotnet format VediSMM.sln --verify-no-changes --no-restore
 dotnet build VediSMM.sln --configuration Release --no-restore
-dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 15
+dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 29
 php scripts/check_docs.php
 php scripts/check_secrets.php
 ```

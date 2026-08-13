@@ -24,6 +24,19 @@ foreach ($required as $entry) {
         exit(1);
     }
 }
+$xml = $archive->getFromName('lib/net8.0/VediSMM.xml');
+foreach ([
+    'T:VediSMM.Services.TrackingLinksService',
+    'T:VediSMM.Services.TrackingAnalyticsService',
+    'T:VediSMM.TrackingSettings',
+    'M:VediSMM.CallOptions.WithIdempotencyKey(System.String)',
+    'M:VediSMM.CallOptions.WithIfMatch(System.String)',
+] as $member) {
+    if (!is_string($xml) || !str_contains($xml, $member)) {
+        fwrite(STDERR, sprintf("Missing public tracking artifact surface: %s\n", $member));
+        exit(1);
+    }
+}
 $forbidden = '/(?:^|\/)(?:\.git|\.github|contract|tests?|TestResults|obj|bin)(?:\/|$)/i';
 for ($index = 0; $index < $archive->numFiles; $index++) {
     $name = (string) $archive->getNameIndex($index);

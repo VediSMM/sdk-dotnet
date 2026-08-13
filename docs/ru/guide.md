@@ -59,6 +59,41 @@ SDK фиксирует повторяемые JSON/raw-тела и сохран�
 
 `CursorPager<T>` загружает страницы лениво, передаёт callback только непрозрачный предыдущий курсор, выявляет пустые и повторные курсоры и распространяет отмену. Модель ответа остаётся под контролем приложения.
 
+## Трекинговые ссылки и аналитика кликов
+
+`TrackingLinks` поддерживает создание, список, получение, отключение и архивацию. Обновления destination намеренно нет, потому что адрес неизменяем. Создание требует `CallOptions.WithIdempotencyKey(...)`, а отключение и архивация — `CallOptions.WithIfMatch(...)`. Специализированные методы отклоняют канонические path/query-поля, если их одновременно подмешали через общий `CallOptions`, но сохраняют остальные заголовки, расширения, дедлайны, sink и токены отмены.
+
+```csharp
+ApiResponse link = await sdk.TrackingLinks.CreateAsync(
+    new Dictionary<string, object?>
+    {
+        ["destination_url"] = "https://example.com/raw?a=1#part",
+    },
+    CallOptions.WithIdempotencyKey("create-link-1"),
+    cancellationToken);
+await sdk.TrackingLinks.DisableAsync(
+    link.Data!.Value.GetProperty("id").GetInt64(),
+    CallOptions.WithIfMatch(link.ETag!),
+    cancellationToken);
+```
+
+`TrackingAnalytics` предоставляет summary, timeseries, links, posts, sources и geo. Методы `IterateLinks`, `IteratePosts`, `IterateSources` и `TrackingLinks.Iterate` используют существующий ленивый `CursorPager<JsonElement>` и сохраняют непрозрачные cursor. Nullable-значения фильтров/JSON-карт не попадают в query. Городские данные остаются privacy-thresholded GeoJSON `FeatureCollection` сервера; координаты имеют порядок `[longitude, latitude]`, локального enrichment в SDK нет.
+
+Для JSON создания/обновления публикации явно вложите серверные настройки в `options.tracking`:
+
+```csharp
+var options = new PostTrackingRequestOptions
+{
+    Tracking = new TrackingSettings
+    {
+        ShortenLinks = false,
+        AddSource = false,
+    },
+};
+```
+
+JSON-поля называются `shorten_links` и `add_source`, оба по умолчанию равны false. SDK не добавляет эти настройки сам, не переписывает URL и не дублирует серверные правила атрибуции.
+
 ## Потоковая передача медиа
 
 `ContentFactory` создаёт новый `HttpContent` для каждой допустимой попытки загрузки. `ResponseStream` направляет успешное скачивание в поток вызывающей стороны; SDK пишет в поток, но не освобождает его.
@@ -73,4 +108,4 @@ SDK фиксирует повторяемые JSON/raw-тела и сохран�
 
 ## Полный API
 
-Все 83 пользовательские операции и необходимые права перечислены в [справочнике API](api-reference.md).
+Все 94 пользовательские операции и необходимые права перечислены в [справочнике API](api-reference.md).

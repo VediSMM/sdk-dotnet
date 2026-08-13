@@ -42,7 +42,7 @@ jobs:
       - run: dotnet format VediSMM.sln --no-restore
       - run: git diff --exit-code -- . ':(exclude)global.json'
       - run: dotnet build VediSMM.sln --configuration Release --no-restore
-      - run: dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 15
+      - run: dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 29
       - run: git restore global.json
       - run: git diff --exit-code
       - run: php scripts/check_docs.php
@@ -65,7 +65,7 @@ jobs:
       - run: dotnet format VediSMM.sln --no-restore
       - run: git diff --exit-code -- . ':(exclude)global.json'
       - run: dotnet build VediSMM.sln --configuration Release --no-restore
-      - run: dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 15 --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
+      - run: dotnet test VediSMM.sln --configuration Release --no-restore -- --minimum-expected-tests 29 --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
       - run: php scripts/check_coverage.php TestResults/coverage.cobertura.xml
       - run: dotnet pack src/VediSMM/VediSMM.csproj --configuration Release --no-build --output artifacts
       - run: php scripts/check_artifact.php artifacts/VediSMM.0.1.1.nupkg artifacts/VediSMM.0.1.1.snupkg

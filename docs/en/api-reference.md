@@ -1,6 +1,6 @@
 # .NET SDK API reference
 
-All 83 user operations are exposed as asynchronous `Task<ApiResponse>` methods. Pass `CallOptions` and a `CancellationToken`; administrative methods are intentionally absent.
+All 94 user operations are exposed as asynchronous `Task<ApiResponse>` methods. Pass `CallOptions` and a `CancellationToken`; administrative methods are intentionally absent.
 
 ## System
 
@@ -169,3 +169,24 @@ All 83 user operations are exposed as asynchronous `Task<ApiResponse>` methods. 
 | `sdk.Webhooks.RotateWebhookSecretAsync(options, cancellationToken)` | `POST` | `/webhooks/{webhook_id}/rotate-secret` | `webhooks:write` |
 | `sdk.Webhooks.TestWebhookAsync(options, cancellationToken)` | `POST` | `/webhooks/{webhook_id}/test` | `webhooks:write` |
 | `sdk.Webhooks.UpdateWebhookAsync(options, cancellationToken)` | `PATCH` | `/webhooks/{webhook_id}` | `webhooks:write` |
+
+## Tracking links
+
+| SDK method | HTTP | Path | Scopes |
+| --- | --- | --- | --- |
+| `sdk.TrackingLinks.ArchiveAsync(id, options, cancellationToken)` | `POST` | `/tracking-links/{id}/archive` | `tracking:write` |
+| `sdk.TrackingLinks.CreateAsync(request, options, cancellationToken)` | `POST` | `/tracking-links` | `tracking:write` |
+| `sdk.TrackingLinks.DisableAsync(id, options, cancellationToken)` | `POST` | `/tracking-links/{id}/disable` | `tracking:write` |
+| `sdk.TrackingLinks.GetAsync(id, options, cancellationToken)` | `GET` | `/tracking-links/{id}` | `tracking:read` |
+| `sdk.TrackingLinks.ListAsync(query, options, cancellationToken)` | `GET` | `/tracking-links` | `tracking:read` |
+
+## Tracking analytics
+
+| SDK method | HTTP | Path | Scopes |
+| --- | --- | --- | --- |
+| `sdk.TrackingAnalytics.GeoAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/geo` | `tracking:read` |
+| `sdk.TrackingAnalytics.SummaryAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/summary` | `tracking:read` |
+| `sdk.TrackingAnalytics.TimeseriesAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/timeseries` | `tracking:read` |
+| `sdk.TrackingAnalytics.LinksAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/links` | `tracking:read` |
+| `sdk.TrackingAnalytics.PostsAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/posts` | `tracking:read` |
+| `sdk.TrackingAnalytics.SourcesAsync(filter, options, cancellationToken)` | `GET` | `/tracking-analytics/sources` | `tracking:read` |

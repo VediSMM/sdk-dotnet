@@ -50,6 +50,25 @@ public sealed class HelperTests
     }
 
     [Fact]
+    public async Task CursorPagerRejectsAnImmediatelyRepeatedInitialCursor()
+    {
+        int calls = 0;
+        var looping = new CursorPager<int>((_, _) =>
+        {
+            calls++;
+            return Task.FromResult(new Page<int>(FirstPageItems, "initial"));
+        }, "initial");
+
+        await Assert.ThrowsAsync<PaginationException>(async () =>
+        {
+            await foreach (int _ in looping)
+            {
+            }
+        });
+        Assert.Equal(1, calls);
+    }
+
+    [Fact]
     public async Task JobWaiterIsFiniteAndTyped()
     {
         int calls = 0;

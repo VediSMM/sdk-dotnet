@@ -113,6 +113,7 @@ public sealed class VediSmmClient : IDisposable
             throw new ConfigurationException($"Unknown VediSMM operation ID: {operationId}.");
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         CallSnapshot call = Snapshot(options ?? new CallOptions());
         TimeSpan timeout = call.Timeout ?? requestTimeout;
         BoundedDuration(timeout, nameof(CallOptions.Timeout), TimeSpan.FromDays(1));
@@ -559,7 +560,9 @@ public sealed class VediSmmClient : IDisposable
             JsonElement data = root.ValueKind == JsonValueKind.Object && root.TryGetProperty("data", out JsonElement wrapped)
                 ? wrapped.Clone()
                 : root.Clone();
-            return new ApiResponse(response.StatusCode, headers, data, requestId, etag);
+            return ApiResponseEnvelopes.Attach(
+                new ApiResponse(response.StatusCode, headers, data, requestId, etag),
+                root.Clone());
         }
         catch (JsonException failure)
         {

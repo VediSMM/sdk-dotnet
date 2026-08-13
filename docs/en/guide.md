@@ -60,6 +60,41 @@ The SDK snapshots replayable JSON/raw bodies and retains the same idempotency ke
 
 `CursorPager<T>` fetches lazily, passes only the opaque prior cursor to your callback, detects empty/repeated cursors, and propagates cancellation. The callback remains explicit so applications choose their own response model.
 
+## Tracking links and click analytics
+
+`TrackingLinks` exposes create, list, get, disable, and archive. Destination update is deliberately absent because a destination is immutable. Create requires `CallOptions.WithIdempotencyKey(...)`; disable and archive require `CallOptions.WithIfMatch(...)`. These focused methods reject their canonical path/query fields if they are also injected through generic `CallOptions`, while preserving unrelated headers, extensions, deadlines, sinks, and cancellation tokens.
+
+```csharp
+ApiResponse link = await sdk.TrackingLinks.CreateAsync(
+    new Dictionary<string, object?>
+    {
+        ["destination_url"] = "https://example.com/raw?a=1#part",
+    },
+    CallOptions.WithIdempotencyKey("create-link-1"),
+    cancellationToken);
+await sdk.TrackingLinks.DisableAsync(
+    link.Data!.Value.GetProperty("id").GetInt64(),
+    CallOptions.WithIfMatch(link.ETag!),
+    cancellationToken);
+```
+
+`TrackingAnalytics` provides summary, timeseries, links, posts, sources, and geo views. `IterateLinks`, `IteratePosts`, `IterateSources`, and `TrackingLinks.Iterate` use the existing lazy `CursorPager<JsonElement>` convention and preserve opaque cursors. Nullable filter/map values are omitted from query strings. Geo city rows remain the server's privacy-thresholded GeoJSON `FeatureCollection`; coordinates stay `[longitude, latitude]` and the SDK performs no enrichment.
+
+For post create/update JSON, explicitly nest server-owned behavior under `options.tracking`:
+
+```csharp
+var options = new PostTrackingRequestOptions
+{
+    Tracking = new TrackingSettings
+    {
+        ShortenLinks = false,
+        AddSource = false,
+    },
+};
+```
+
+The JSON names are `shorten_links` and `add_source`. Both defaults are false. The SDK never inserts these settings, rewrites URLs, or duplicates server attribution rules.
+
 ## Streaming media
 
 Set `ContentFactory` to create a fresh `HttpContent` for every eligible upload attempt. Set `ResponseStream` to stream a successful download into a caller-owned `Stream`; the SDK writes to it but does not dispose it.
@@ -74,4 +109,4 @@ Pass the exact raw request bytes, timestamp header, and `v1=` signature to `Webh
 
 ## Complete API
 
-See the [API reference](api-reference.md) for every one of the 83 user operations and its required scopes.
+See the [API reference](api-reference.md) for every one of the 94 user operations and its required scopes.

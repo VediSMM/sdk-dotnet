@@ -1,9 +1,41 @@
 {
   "schema_version": "1.0.0",
-  "contract_version": "1.0.0",
-  "contract_sha256": "0318da9e05a622860cb2cf154c6bca50e931349b3e7a8df54d76173ad961c521",
-  "operation_count": 83,
+  "contract_version": "1.1.0",
+  "contract_sha256": "08e7b140c93a1ef16aa54de509799388e8b01da36b93e47e9733a36e57e40f8a",
+  "operation_count": 94,
   "operations": [
+    {
+      "operation_id": "archiveTrackingLink",
+      "method": "post",
+      "path": "/tracking-links/{id}/archive",
+      "tag": "Tracking links",
+      "authenticated": true,
+      "scopes": [
+        "tracking:write"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "412",
+        "413",
+        "415",
+        "422",
+        "428",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "etag_response",
+        "optimistic_concurrency",
+        "service_unavailable"
+      ]
+    },
     {
       "operation_id": "cancelAccountConnection",
       "method": "delete",
@@ -131,7 +163,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -157,7 +190,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -212,7 +246,39 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "idempotency_key"
+      ]
+    },
+    {
+      "operation_id": "createTrackingLink",
+      "method": "post",
+      "path": "/tracking-links",
+      "tag": "Tracking links",
+      "authenticated": true,
+      "scopes": [
+        "tracking:write"
+      ],
+      "request_content_types": [
+        "application/json"
+      ],
+      "response_statuses": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "409",
+        "413",
+        "415",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "etag_response",
+        "idempotency_key",
+        "service_unavailable"
       ]
     },
     {
@@ -240,6 +306,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "idempotency_key"
       ]
     },
@@ -422,6 +489,38 @@
       ]
     },
     {
+      "operation_id": "disableTrackingLink",
+      "method": "post",
+      "path": "/tracking-links/{id}/disable",
+      "tag": "Tracking links",
+      "authenticated": true,
+      "scopes": [
+        "tracking:write"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "412",
+        "413",
+        "415",
+        "422",
+        "428",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "etag_response",
+        "optimistic_concurrency",
+        "service_unavailable"
+      ]
+    },
+    {
       "operation_id": "disconnectAccount",
       "method": "delete",
       "path": "/accounts/{id}",
@@ -464,7 +563,8 @@
         "503"
       ],
       "capabilities": [
-        "async_job"
+        "async_job",
+        "service_unavailable"
       ]
     },
     {
@@ -611,7 +711,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -632,7 +733,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -773,7 +875,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -857,6 +960,99 @@
       ]
     },
     {
+      "operation_id": "getTrackingAnalyticsGeo",
+      "method": "get",
+      "path": "/tracking-analytics/geo",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "getTrackingAnalyticsSummary",
+      "method": "get",
+      "path": "/tracking-analytics/summary",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "getTrackingAnalyticsTimeseries",
+      "method": "get",
+      "path": "/tracking-analytics/timeseries",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "getTrackingLink",
+      "method": "get",
+      "path": "/tracking-links/{id}",
+      "tag": "Tracking links",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "etag_response",
+        "service_unavailable"
+      ]
+    },
+    {
       "operation_id": "getWebhook",
       "method": "get",
       "path": "/webhooks/{webhook_id}",
@@ -874,7 +1070,8 @@
         "500"
       ],
       "capabilities": [
-        "authenticated"
+        "authenticated",
+        "etag_response"
       ]
     },
     {
@@ -1167,6 +1364,106 @@
       ]
     },
     {
+      "operation_id": "listTrackingAnalyticsLinks",
+      "method": "get",
+      "path": "/tracking-analytics/links",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "cursor_pagination",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "listTrackingAnalyticsPosts",
+      "method": "get",
+      "path": "/tracking-analytics/posts",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "cursor_pagination",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "listTrackingAnalyticsSources",
+      "method": "get",
+      "path": "/tracking-analytics/sources",
+      "tag": "Tracking analytics",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "cursor_pagination",
+        "service_unavailable"
+      ]
+    },
+    {
+      "operation_id": "listTrackingLinks",
+      "method": "get",
+      "path": "/tracking-links",
+      "tag": "Tracking links",
+      "authenticated": true,
+      "scopes": [
+        "tracking:read"
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "422",
+        "500",
+        "503"
+      ],
+      "capabilities": [
+        "authenticated",
+        "cursor_pagination",
+        "service_unavailable"
+      ]
+    },
+    {
       "operation_id": "listWebhookDeliveries",
       "method": "get",
       "path": "/webhooks/{webhook_id}/deliveries",
@@ -1234,7 +1531,9 @@
         "500",
         "503"
       ],
-      "capabilities": []
+      "capabilities": [
+        "service_unavailable"
+      ]
     },
     {
       "operation_id": "logout",
@@ -1342,7 +1641,9 @@
         "500",
         "503"
       ],
-      "capabilities": []
+      "capabilities": [
+        "service_unavailable"
+      ]
     },
     {
       "operation_id": "register",
@@ -1365,7 +1666,8 @@
         "503"
       ],
       "capabilities": [
-        "async_job"
+        "async_job",
+        "service_unavailable"
       ]
     },
     {
@@ -1395,6 +1697,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1445,7 +1748,8 @@
         "503"
       ],
       "capabilities": [
-        "async_job"
+        "async_job",
+        "service_unavailable"
       ]
     },
     {
@@ -1468,7 +1772,9 @@
         "500",
         "503"
       ],
-      "capabilities": []
+      "capabilities": [
+        "service_unavailable"
+      ]
     },
     {
       "operation_id": "retryPostTargets",
@@ -1620,6 +1926,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "idempotency_key"
       ]
     },
@@ -1651,6 +1958,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1736,6 +2044,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1766,6 +2075,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1796,6 +2106,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1881,6 +2192,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1912,6 +2224,7 @@
       ],
       "capabilities": [
         "authenticated",
+        "etag_response",
         "optimistic_concurrency"
       ]
     },
@@ -1941,7 +2254,8 @@
       ],
       "capabilities": [
         "authenticated",
-        "multipart_upload"
+        "multipart_upload",
+        "service_unavailable"
       ]
     },
     {
@@ -1987,7 +2301,9 @@
         "500",
         "503"
       ],
-      "capabilities": []
+      "capabilities": [
+        "service_unavailable"
+      ]
     }
   ]
 }

@@ -31,6 +31,8 @@ public sealed class VediSmm : IDisposable
             ["Calendar"] = typeof(CalendarService),
             ["Analytics"] = typeof(AnalyticsService),
             ["Webhooks"] = typeof(WebhooksService),
+            ["TrackingLinks"] = typeof(TrackingLinksService),
+            ["TrackingAnalytics"] = typeof(TrackingAnalyticsService),
         }.ToFrozenDictionary(StringComparer.Ordinal);
 
     /// <summary>Creates a facade with secure default transport.</summary>
@@ -74,6 +76,8 @@ public sealed class VediSmm : IDisposable
         Calendar = new CalendarService(Client);
         Analytics = new AnalyticsService(Client);
         Webhooks = new WebhooksService(Client);
+        TrackingLinks = new TrackingLinksService(Client);
+        TrackingAnalytics = new TrackingAnalyticsService(Client);
     }
 
     /// <summary>Gets the reusable transport client.</summary>
@@ -130,7 +134,13 @@ public sealed class VediSmm : IDisposable
     /// <summary>Gets the Webhooks service.</summary>
     public WebhooksService Webhooks { get; }
 
-    /// <summary>Gets the exact 17 service types.</summary>
+    /// <summary>Gets the Tracking links service.</summary>
+    public TrackingLinksService TrackingLinks { get; }
+
+    /// <summary>Gets the Tracking analytics service.</summary>
+    public TrackingAnalyticsService TrackingAnalytics { get; }
+
+    /// <summary>Gets the exact 19 service types.</summary>
     public static IReadOnlyDictionary<string, Type> ServiceTypes => Types;
 
     /// <inheritdoc />
