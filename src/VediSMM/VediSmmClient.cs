@@ -389,8 +389,8 @@ public sealed class VediSmmClient : IDisposable
     {
         var request = new HttpRequestMessage(new HttpMethod(operation.Method), BuildUri(operation, call));
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        request.Headers.UserAgent.ParseAdd("VediSMM-DotNet/0.1.1");
-        request.Headers.TryAddWithoutValidation("X-SDK-Version", "0.1.1");
+        request.Headers.UserAgent.ParseAdd("VediSMM-DotNet/0.2.0");
+        request.Headers.TryAddWithoutValidation("X-SDK-Version", "0.2.0");
         if (token is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);

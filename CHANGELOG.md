@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 2026-08-15
 
 - Added immutable tracking-link create/list/get/disable/archive services and lazy cursor iteration; destination update remains intentionally absent.
 - Added all six tracking-analytics endpoints, nullable JSON-map filters, GeoJSON preservation, and lazy link/post/source pagers.
